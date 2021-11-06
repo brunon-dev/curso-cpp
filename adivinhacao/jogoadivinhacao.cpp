@@ -11,6 +11,8 @@ int main() {
     bool nao_acertou = true;
     int tentativas = 0;
 
+    double pontos = 1000.0;
+
     while(nao_acertou) {
         
         tentativas++;
@@ -21,8 +23,11 @@ int main() {
 
         cout << "Qual o seu chute? ";
         cin >> chute;
-        cout << "O valor do seu chute é " << chute << endl;
 
+        double pontos_perdidos = abs(chute - NUMERO_SECRETO) / 2.0;        
+        pontos = pontos - pontos_perdidos;
+
+        cout << "O valor do seu chute é " << chute << endl;
         bool acertou = chute == NUMERO_SECRETO;
         bool maior = chute > NUMERO_SECRETO;
 
@@ -40,4 +45,5 @@ int main() {
 
     cout << "Fim de jogo!" << endl;
     cout << "Você acertou o número secreto em " << tentativas << " tentativas!" << endl;
+    cout << "Sua pontuação foi de " << pontos << " pontos!" << endl;
 }
