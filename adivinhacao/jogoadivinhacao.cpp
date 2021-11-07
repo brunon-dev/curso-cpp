@@ -1,21 +1,45 @@
 #include <iostream>
+#include <Windows.h>
 using namespace std;
 
 int main() {
+    SetConsoleOutputCP(CP_UTF8);
+
     cout << "**************************************" << endl;
     cout << "* Bem-vindos ao jogo de adivinhação! *" << endl;
     cout << "**************************************" << endl;
+
+    cout << "Escolha o seu nível de dificuldade:" << endl;
+    cout << "Fácil (F), Médio (M) ou Difícil (D)? ";
+
+    char dificuldade;
+
+    cin >> dificuldade;
+
+    int numero_de_tentativas;
+
+    switch (dificuldade)
+    {
+    case 'F':
+        numero_de_tentativas = 15;
+        break;
+    case 'M':
+        numero_de_tentativas = 10;
+        break;
+    default:
+        numero_de_tentativas = 5;
+        break;
+    }
     
     const int NUMERO_SECRETO = 42;
     
     bool nao_acertou = true;
-    int tentativas = 0;
 
     double pontos = 1000.0;
 
-    while(nao_acertou) {
-        
-        tentativas++;
+    int tentativas = 0;
+
+    for(tentativas = 1; tentativas <= numero_de_tentativas; tentativas++) {
 
         int chute;
 
@@ -34,6 +58,7 @@ int main() {
         if (acertou) {
             cout << "Parabéns! Você acertou o número secreto!" << endl;
             nao_acertou = false;
+            break;
         }
         else if (maior) {
             cout << "Seu chute foi maior que o número secreto!" << endl;
@@ -44,6 +69,12 @@ int main() {
     }
 
     cout << "Fim de jogo!" << endl;
-    cout << "Você acertou o número secreto em " << tentativas << " tentativas!" << endl;
-    cout << "Sua pontuação foi de " << pontos << " pontos!" << endl;
+    if (nao_acertou) {
+        cout << "Você perdeu! Tente novamente!" << endl;
+    } else {
+        cout << "Você acertou o número secreto em " << tentativas << " tentativas!" << endl;
+        cout.precision(2);
+        cout << fixed;
+        cout << "Sua pontuação foi de " << pontos << " pontos!" << endl;
+    }
 }
