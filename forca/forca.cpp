@@ -3,8 +3,18 @@
 
 using namespace std;
 
+string palavra_secreta = "MELANCIA";
+
+bool letra_existe(char chute) {
+    for (int i = 0; i < palavra_secreta.size(); i++) {
+        if (chute == palavra_secreta[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
 int main () {
-    string palavra_secreta = "MELANCIA";
 
     cout << "A palavra secreta é " << palavra_secreta << endl;
 
@@ -15,6 +25,11 @@ int main () {
         char chute;
         cin >> chute;
 
-        cout << "O seu chute foi " << chute << endl;
+        if (letra_existe(chute)) {
+            cout << "Você acertou! Seu chute está na palavra!" << endl;
+        }
+        else {
+            cout << "Você errou! Seu chute não está na palavra!" << endl;
+        }
     }
 }
