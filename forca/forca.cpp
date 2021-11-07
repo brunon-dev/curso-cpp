@@ -6,11 +6,13 @@ using namespace std;
 string palavra_secreta = "MELANCIA";
 
 bool letra_existe(char chute) {
-    for (int i = 0; i < palavra_secreta.size(); i++) {
-        if (chute == palavra_secreta[i]) {
+    // passa a usar looping do C++ 11 usando a flag "-std=c++11" (ver Makefile)
+    for (char letra : palavra_secreta) {
+        if (chute == letra) {
             return true;
         }
     }
+
     return false;
 }
 
