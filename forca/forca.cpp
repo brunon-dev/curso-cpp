@@ -2,6 +2,9 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <fstream>
+#include <ctime>
+#include <cstdlib>
 
 using namespace std;
 
@@ -78,9 +81,38 @@ void chuta() {
     cout << endl;
 }
 
+vector<string> le_arquivo() {
+    ifstream arquivo;
+    arquivo.open("palavras.txt");
+
+    int quantidade_palavras;
+    arquivo >> quantidade_palavras;
+
+    vector<string> palavras_arquivo;
+
+    for(int i = 0; i < quantidade_palavras; i++) {
+        string palavra_lida;
+        arquivo >> palavra_lida;
+        palavras_arquivo.push_back(palavra_lida);
+    }
+
+    return palavras_arquivo;
+}
+
+void sorteia_palavra() {
+    vector<string> lista_palavras = le_arquivo();
+    
+    srand(time(NULL));
+    int indice_sorteado = rand() % lista_palavras.size();
+
+    palavra_secreta = lista_palavras[indice_sorteado];
+}
+
 int main () {
 
     imprime_cabecalho();
+
+    sorteia_palavra();
 
     while (nao_acertou() && nao_enforcou()) {
         imprime_erros();
