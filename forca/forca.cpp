@@ -5,146 +5,21 @@
 #include <fstream>
 #include <ctime>
 #include <cstdlib>
+#include "imprime_cabecalho.hpp"
+#include "sorteia_palavra.hpp"
+#include "nao_acertou.hpp"
+#include "nao_enforcou.hpp"
+#include "imprime_erros.hpp"
+#include "imprime_palavra.hpp"
+#include "chuta.hpp"
+#include "adiciona_palavra.hpp"
 
 using namespace std;
 
-string palavra_secreta = "MELANCIA";
+std::string palavra_secreta = "MELANCIA";
+
 map<char, bool> chutou;
 vector<char> chutes_errados;
-
-bool letra_existe(char chute) {
-    // passa a usar looping do C++ 11 usando a flag "-std=c++11" (ver Makefile)
-    for (char letra : palavra_secreta) {
-        if (chute == letra) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-bool nao_acertou() {
-    for (char letra : palavra_secreta) {
-        if (!chutou[letra]) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool nao_enforcou() {
-    // o limite da forca são de 5 tentativas erradas
-    return chutes_errados.size() < 5;
-}
-
-void imprime_cabecalho() {
-    cout << "*********************" << endl;
-    cout << "*** Jogo da Forca ***" << endl;
-    cout << "*********************" << endl;
-    cout << endl;
-}
-
-void imprime_erros() {
-    cout << "Chutes errados: ";
-    for (char letra: chutes_errados) {
-        cout << letra << " ";
-    }
-    cout << endl;
-}
-
-void imprime_palavra() {
-    for (char letra : palavra_secreta) {
-        if (chutou[letra]) {
-            cout << letra << " ";
-        }
-        else {
-            cout << "_ "; 
-        }
-    }
-    cout << endl;
-}
-
-void chuta() {
-    cout << "Seu chute: ";
-    char chute;
-    cin >> chute;
-
-    chutou[chute] = true;
-
-    if (letra_existe(chute)) {
-        cout << "Você acertou! Seu chute está na palavra!" << endl;
-    }
-    else {
-        cout << "Você errou! Seu chute não está na palavra!" << endl;
-        chutes_errados.push_back(chute);
-    }
-    cout << endl;
-}
-
-vector<string> le_arquivo() {
-    ifstream arquivo;
-    arquivo.open("palavras.txt");
-
-    if(arquivo.is_open()) {
-        int quantidade_palavras;
-        arquivo >> quantidade_palavras;
-
-        vector<string> palavras_arquivo;
-
-        for(int i = 0; i < quantidade_palavras; i++) {
-            string palavra_lida;
-            arquivo >> palavra_lida;
-            palavras_arquivo.push_back(palavra_lida);
-        }
-
-        arquivo.close();
-
-        return palavras_arquivo;
-    }
-    else {
-        cout << "Não foi possível acessar o banco de palavras." << endl;
-        exit(0);
-    }
-}
-
-void sorteia_palavra() {
-    vector<string> lista_palavras = le_arquivo();
-    
-    srand(time(NULL));
-    int indice_sorteado = rand() % lista_palavras.size();
-
-    palavra_secreta = lista_palavras[indice_sorteado];
-}
-
-void salva_arquivo(vector<string> nova_lista) {
-    ofstream arquivo;
-    arquivo.open("palavras.txt");
-    if (arquivo.is_open()) {
-        arquivo << nova_lista.size() << endl;
-
-        for(string palavra : nova_lista) {
-            arquivo << palavra << endl;
-        }
-
-        arquivo.close();
-    }
-    else {
-        cout << "Não foi possível acessar o banco de palavras." << endl;
-        exit(0);
-    }
-}
-
-void adiciona_palavra() {
-    cout << endl;
-    cout << "Digite uma palavra, usando letras maiúsculas." << endl;
-    string nova_palavra;
-    cin >> nova_palavra;
-
-    vector<string> lista_palavras = le_arquivo();
-    lista_palavras.push_back(nova_palavra);
-
-    salva_arquivo(lista_palavras);
-}
 
 int main () {
 
